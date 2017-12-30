@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type Coin struct {
+type Block struct {
 	Index        int
 	PreviousHash string
 	timestamp    time.Time
@@ -15,14 +15,14 @@ type Coin struct {
 	hash         string
 }
 
-var blockChain []Coin
+var blockChain []Block
 
-func getGenesisBlock() Coin {
-	c := Coin{0, "0", time.Unix(1465154705, 0), "my genesis block!!", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7"}
+func getGenesisBlock() Block {
+	c := Block{0, "0", time.Unix(1465154705, 0), "my genesis block!!", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7"}
 	return c
 }
 
-func getBlocks() []Coin {
+func getBlocks() []Block {
 	return blockChain
 }
 
@@ -30,15 +30,15 @@ func mineBlock() {
 
 }
 
-func generateNextBlock(data string) Coin {
+func generateNextBlock(data string) Block {
 	previuosBlock := getLatestBlock()
 	nextIndex := previuosBlock.Index + 1
 	nextTimeStamp := time.Now()
 	nextHash := calculateHash(nextIndex, previuosBlock.hash, nextTimeStamp, data)
-	return Coin{nextIndex, previuosBlock.hash, nextTimeStamp, data, nextHash}
+	return Block{nextIndex, previuosBlock.hash, nextTimeStamp, data, nextHash}
 }
 
-func getLatestBlock() Coin {
+func getLatestBlock() Block {
 	return blockChain[len(blockChain)-1]
 }
 
@@ -49,7 +49,7 @@ func calculateHash(nextIndex int, previousHash string, timestamp time.Time, data
 }
 
 func main() {
-	blockChain = []Coin{}
+	blockChain = []Block{}
 	blockChain = append(blockChain, getGenesisBlock())
 
 	c1 := generateNextBlock("aaaaaa")
